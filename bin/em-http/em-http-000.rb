@@ -1,12 +1,14 @@
 require 'eventmachine'
 require 'em-http-request'
 require 'logger'
+require 'pry'
 
 ##
 # Single request
 
 @start_time = Time.now
 @logger = Logger.new($stdout)
+http = nil
 
 EventMachine.run {
   url = 'http://ipv4.download.thinkbroadband.com/5MB.zip'
@@ -22,3 +24,5 @@ EventMachine.run {
     EM.stop
   end
 }
+
+binding.pry

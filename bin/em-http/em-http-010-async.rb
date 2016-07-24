@@ -1,6 +1,8 @@
 require 'eventmachine'
 require 'em-http-request'
 require 'logger'
+require 'pry'
+
 
 ##
 # concurrent requests without concurrency limits
@@ -37,3 +39,5 @@ EventMachine.run {
   new_http_request('http://ipv4.download.thinkbroadband.com/5MB.zip')
   new_http_request('http://ipv4.download.thinkbroadband.com/10MB.zip')
 }
+
+binding.pry

@@ -1,6 +1,7 @@
 require 'eventmachine'
 require 'em-http-request'
 require 'logger'
+require 'pry'
 
 ##
 # concurrent requests without concurrency limits
@@ -53,3 +54,5 @@ EventMachine.run {
     new_http_request(request_hash) { iter.next }
   end
 }
+
+binding.pry
