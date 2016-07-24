@@ -5,7 +5,7 @@ require 'logger'
 ##
 # concurrent requests without concurrency limits
 
-@requests = []
+@request_queue = []
 @start_time = Time.now
 @logger = Logger.new($stdout)
 
@@ -15,8 +15,7 @@ end
 
 def new_http_request(url)
   request_hash = {}
-  @requests << request_hash
-  index = @requests.length
+  @request_queue << request_hash
   http = EventMachine::HttpRequest.new(url).get
   request_hash[:http] = http
   finish = lambda do |http|
@@ -30,8 +29,8 @@ def new_http_request(url)
 end
 
 def stop_when_all_finished
-  @logger.debug("[#{__method__}] [states=#{@requests.map {|r| r[:http].state}}]")
-  EM.stop if @requests.all? {|r| r[:http].state.eql?(:finished)}
+  @logger.debug("[#{__method__}] [states=#{@request_queue.map {|r| r[:http].state}}]")
+  EM.stop if @request_queue.all? {|r| r[:http].state.eql?(:finished)}
 end
 
 EventMachine.run {
